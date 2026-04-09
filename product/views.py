@@ -1,7 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Product, Category, Review
 from rest_framework import status
+
+from .models import Product, Category, Review
 from .serializers import (
     ProductListSerializer, 
     ProductDetailSerializer,
@@ -14,7 +15,7 @@ from .serializers import (
 
 @api_view(['GET'])
 def product_list_api_view(request):
-    product = Product.objects.all()
+    product = Product.objects.prefetch_related('category', 'reviews').all()
     data = ProductListSerializer(product, many=True).data
     return Response(data=data)
 
@@ -57,3 +58,9 @@ def review_detail_api_view(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     data = ReviewDetailSerializer(review, many=False).data
     return Response(data=data)
+
+@api_view(['GET'])
+def product_reviews_view(request):
+    products = Product.objects.prefetch_related('reviews')
+    serializer = ProductListSerializer(products, many=True)
+    return Response(serializer.data)
