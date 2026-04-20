@@ -49,7 +49,9 @@ class CategoryListSerializer(serializers.ModelSerializer):
 class CategoryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'        
+        fields = '__all__'  
+
+         
 
 class ReviewListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,8 +62,7 @@ class ReviewListSerializer(serializers.ModelSerializer):
 class ReviewDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = '__all__'         
-
+        fields = '__all__'    
 
 
 
